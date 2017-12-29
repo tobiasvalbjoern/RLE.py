@@ -1,11 +1,6 @@
 ﻿from RLE import encode, decode
 from pytest import raises
 
-#For the hypothesis
-from hypothesis import given
-from hypothesis.strategies import text
-
-
 def test_encode():
     assert encode('kkkkkbbbb') == [(5,'k'),(4,'b')]
     assert encode('111k') == [(3,'1'),(1,'k')]
@@ -40,11 +35,12 @@ def test_decode():
     assert decode([(1,'1')]) == '1'	
     assert decode([(5,'😇')]) == '😇😇😇😇😇'
     assert decode([(10,'æ')]) == 'ææææææææææ'
-
-def test_decode_empty():
-    assert decode('') == ''
+    assert decode('') == ''    
 
 #For hypothesis
+from hypothesis import given
+from hypothesis.strategies import text
+
 @given(text())
 def test_decode_inverts_encode(s):
     assert decode(encode(s)) == s
